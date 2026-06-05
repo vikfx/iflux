@@ -1,0 +1,258 @@
+/*! minireset.css v0.0.6 | MIT License | github.com/jgthms/minireset.css */html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,iframe,hr,h1,h2,h3,h4,h5,h6{margin:0;padding:0}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}ul{list-style:none}button,input,select{margin:0}html{box-sizing:border-box}*,*::before,*::after{box-sizing:inherit}img,video{height:auto;max-width:100%}iframe{border:0}table{border-collapse:collapse;border-spacing:0}td,th{padding:0}
+
+/***************************************
+	VARS
+***************************************/
+
+/***** colors *****/
+:root {
+	--color-text:#222;
+	--color-bkg:#eee;
+	--color-hover:#33e;
+	--color-accent-1:#ccc;
+}
+:root.dark {
+	--color-text:#eee;
+	--color-bkg:#222;
+	--color-hover:#e33;
+	--color-accent-1:#333;
+}
+
+
+/***** box sizing *****/
+:root {
+	--space-xs: 2px;
+	--space-s : 5px;
+	--space-m : 10px;
+	--space-l : 20px;
+	--space-xl : 50px;
+}
+
+/***************************************
+	STRUCTURE
+***************************************/
+/***** color-scheme *****/
+* {
+	font-family: "Open Sans", sans-serif;
+	color: var(--color-text);
+}
+
+body {
+	color: var(--color-text);
+	background-color: var(--color-bkg);
+}
+
+input, select, textarea, button {
+	border-color: var(--color-text);
+	color: var(--color-text);
+	background-color: var(--color-bkg);
+}
+
+/***** header *****/
+#main-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: var(--space-m);
+	gap: var(--space-m);
+}
+
+#main-header h1 {
+	margin: 0 auto 0 0;
+}
+
+/***** main *****/
+#main-content {
+	min-height: 90vh;
+	padding: var(--space-l);
+}
+
+#cards {
+	display: grid;
+	grid-template-columns: repeat(3,1fr);
+	grid-gap: var(--space-l);
+}
+
+/***** footer *****/
+#main-footer {
+	padding: var(--space-m);
+}
+
+/***** tags *****/
+input, select, textarea {
+	border: none;
+	background-color: var(--color-accent-1);
+	padding: var(--space-m);
+}
+
+button {
+	border: solid 1px var(--color-accent-1);
+	padding: var(--space-s);
+}
+
+/* titles */
+h2 {
+	text-align: center;
+}
+
+/* buttons */
+.button {
+	/* display: grid;
+	justify-items: center; */
+	font-size: 0.8em;
+	text-decoration: none;
+}
+
+.button .material-symbols-outlined {
+	padding-right: var(--space-xs);
+}
+
+.button:hover,
+.button:hover .material-symbols-outlined {
+	color: var(--color-hover);
+	border-color: var(--color-hover);
+}
+
+/***************************************
+	HELPERS
+***************************************/
+.align-right {
+	text-align: right;
+}
+
+
+/***************************************
+	ELEMENTS
+***************************************/
+/* signature */
+.at-spiral {
+	text-decoration: none;
+}
+
+.at-spiral span {
+	transform: scaleY(-1);
+	display: inline-block;
+	transition: 200ms color;
+	color : inherit;
+}
+
+.at-spiral:hover span {
+	color:#229898;
+}
+
+/* header */
+h1 a {
+	font-size: 1.5em;
+	text-decoration: none;
+	font-weight: 900;
+}
+
+#main-header #color-toggle {
+	border: none;
+} 
+
+
+/* sidebar */
+#sidebar {
+	text-align: center;
+	display: grid;
+	gap: var(--space-m);
+	padding: var(--space-xl) 0;
+	justify-items: center;
+}
+
+#question-form {
+	max-width: 700px;
+	width: 70%;
+}
+
+input#question {
+	width: calc(100% - 60px);
+	margin-bottom: var(--space-m);
+}
+
+/* symbols */
+.material-symbols-outlined {
+	vertical-align: middle;
+}
+.material-symbols-outlined.filled {
+	font-variation-settings: 'FILL' 1;
+}
+
+/* card */
+.card {
+	padding: var(--space-l);
+	border: solid 1px;
+	border-radius: var(--space-m);
+}
+
+.card header, .card .content {
+	border-bottom: solid 1px;
+	margin-bottom: var(--space-s);
+	padding-bottom: var(--space-s);
+}
+
+.card h3 {
+	font-weight: 700;
+}
+
+.card .metas {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.card .source {
+	font-size: .8em;
+	font-style: italic;
+}
+
+.card .meta {
+	font-size: .8em;
+}
+
+.card .score {
+	font-size: 1.2em;
+	line-height: 1;
+	display: flex;
+	align-items: center;
+	gap: var(--space-xs);
+}
+
+.card .labels {
+	margin-bottom: var(--space-s);
+}
+
+.card .label {
+	display: inline-block;
+	background-color: var(--color-text);
+	color: var(--color-bkg);
+	padding: var(--space-s);
+	border-radius: var(--space-s);
+	font-size: .8em;
+}
+
+.card .digest {
+	margin: var(--space-m) 0;
+}
+
+.card .angle {
+	font-style: italic;
+	margin: var(--space-m) 0;
+}
+
+.card .actions {
+	display: flex;
+	justify-content: flex-start;
+	gap: var(--space-l);
+	margin-top: var(--space-m);
+}
+
+
+
+
+
+/* modal */
+.modal {
+	display: none;
+}

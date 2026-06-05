@@ -1,0 +1,40 @@
+QUESTION :
+{question}
+
+POSITIONNEMENT :
+{position}
+
+AXES THEMATIQUES :
+{labels}
+
+TYPES DE SOURCES RECHERCHÉES :
+{source_types}
+
+LANGUE :
+{language}
+
+NOMBRE DE REQUÊTES :
+{query_count}
+
+MISSION :
+
+Génère {query_count} requêtes de recherche courtes et variées permettant d'identifier des contenus pertinents pour répondre à la question.
+
+Les requêtes doivent :
+
+- Les requêtes doivent utiliser des formulations différentes afin de limiter les résultats redondants.
+- privilégier les contenus de fond plutôt que l'actualité
+- orienter les requêtes vers des contenus issus de ces types de sources
+- éviter les requêtes trop génériques
+- couvrir l’ensemble des axes thèmatiques de manière équilibrée.
+- rester adaptées à une recherche web
+
+Retourne uniquement un JSON valide.
+
+Format :
+
+{
+  "queries": [],
+  "tags": [],
+  "angles": []
+}

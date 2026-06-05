@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- <meta name="color-scheme" content="dark light"> -->
+
+	<title>I-FLUX 0.0</title>
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0" />
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=content_copy,contrast,event_available,search,skull,visibility" /> -->
+	<!-- <link rel="stylesheet" href="https://use.hugeicons.com/font/icons.css" /> -->
+
+
+	<link rel="stylesheet" href="./css/main.css">
+
+
+	<!-- <link rel="manifest" href="manifest.json">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-title" content="Mon Application">
+	<link rel="apple-touch-icon" href="icons/icon-192.png"> -->
+
+
+</head>
+<body>
+	<header id="main-header">
+		<h1><a href="./">I-FLUX 0.0</a></h1>
+		<button id="color-toggle" class="button"><span class="material-symbols-outlined">contrast</span></button>
+		<form id="login" action="/api/authenticate">
+			<label for="api-key">API</label>
+			<input type="password" name="api-key" id="api-key" value="" placeholder="api key">
+			<button type="submit" class="button"><span class="material-symbols-outlined filled">key</span></button>
+		</form>
+	</header>
+
+	<!-- #main-content -->
+	<main id="main-content">
+	
+		<!-- #sidebar -->
+		<aside id="sidebar">
+			<h2>Question</h2>
+            <form action="/api/question" id="question-form">
+				<input type="text" name="question" id="question" placeholder="votre question" value="">
+				<button type="submit"  class="button"><span class="material-symbols-outlined">question_mark</span></button>
+				<div id="question-options" class="toggle">
+					<button class="toggle-btn"><span class="material-symbols-outlined">add</span> options</button>
+					<div class="toggle-content">
+						<select name="model" id="model">
+							<option value="openai">openai</option>
+							<option value="mistral">mistral</option>
+							<option value="googleai">google ai</option>
+						</select>
+						<ul id="labels">
+							<li class="label">
+								<input type="checkbox" name="label" id="engagment" value="engagement utilisateur">
+								<label for="engagment">engagement utilisateur</label>
+							</li>
+							<li class="label">
+								<input type="checkbox" name="label" id="mediation" value="médiation / expérience">
+								<label for="mediation">médiation / expérience</label>
+							</li>
+							<li class="label">
+								<input type="checkbox" name="label" id="conception" value="dispositif / conception">
+								<label for="conception">dispositif / conception</label>
+							</li>
+							<li class="label">
+								<input type="checkbox" name="label" id="learning" value="cognition et apprentissage">
+								<label for="learning">cognition et apprentissage</label>
+							</li>
+						</ul>
+						<input type="number" name="target-score" id="target-score" value="8">
+					</div>
+				</div>
+			</form>
+
+			<div id="question-reminder">
+				<h3>Rappel de la question posée</h3>
+			</div>
+		</aside>
+		
+		<div id="page">
+			<!-- #request-tab -->
+			<section id="requests-tab" class="tab">
+				<h2>Requêtes</h2>
+				<ul id="requetes"></ul>
+			</section><!-- /#requests-tab -->
+            <section id="cards-tab" class="tab">
+				<h2>Cards</h2>
+				<ul id="cards">
+					<!-- #card-01 -->
+					<li class="card" id="card-01">
+						<header>
+							<h3>C'est le titre de l'article qui est censé répondre à la question</h3>
+							<p class="source meta">site d'origine de l'article</p>
+							<ul class="metas">
+								<li class="date meta">mai 2026</li>
+								<li class="type meta">media</li>
+								<li class="score"><span class="material-symbols-outlined">star_rate</span> 8</li>
+							</ul>
+						</header>
+						<div class="content">
+							<ul class="labels">
+								<li class="label meta">label de trello 1</li>
+								<li class="label meta">label de trello 2</li>
+							</ul>
+							<p class="digest">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat id tenetur dicta, deserunt cupiditate aliquid in facilis ratione dolorem doloribus voluptatibus sint temporibus dolore pariatur quisquam! Doloremque cumque voluptatum nobis.
+							</p>
+							<p class="angle">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat id tenetur dicta.
+							</p>
+							<a href="" class="link"><span class="material-symbols-outlined">link</span> https://le-site.com/lien-complet-de-l-article-a-lire</a>
+						</div>
+						<footer>
+							<nav class="actions">
+								<a href="api/blacklist" class="button"><span class="material-symbols-outlined">skull</span>blacklister</a>
+								<a href="api/hold" class="button"><span class="material-symbols-outlined">visibility</span>en veille</a>
+								<!-- <a href="api/read" class="button"><span class="material-symbols-outlined">mark_chat_read</span>lu</a> -->
+								<!-- <a href="api/saved" class="button"><span class="material-symbols-outlined">event_available</span>planifié</a> -->
+								<a href="copy" class="button"><span class="material-symbols-outlined">content_copy</span>copier</a>
+							</nav>
+						</footer>
+					</li><!-- /#card-01 -->
+					
+				</ul>
+			</section><!-- /#cards-tab -->
+			
+		</div> <!-- /#page -->
+		
+		<div id="alert" class="modal">
+			<div class="modal-box">
+				<div class="content"></div>
+				<div class="buttons-wrap">
+					<button class="close button">OK</button>
+				</div>
+			</div>
+		</div>
+		
+		<div id="confirm" class="modal">
+			<div class="modal-box">
+				<div class="content"></div>
+				<div class="buttons-wrap">
+					<button class="ok button">OK</button>
+					<button class="close button">Annuler</button>
+				</div>
+			</div>
+		</div>	
+	</main>
+
+	<footer id="main-footer">
+		<p class="align-right">
+			une création <a href="http://spiral-communication.fr" class="at-spiral" target="_blank"><span>@</span>spiral</a>
+		</p>
+	</footer>
+
+	<!-- scripts -->
+	<script type="module" src="./js/main.js"></script>
+</body>
+</html>
