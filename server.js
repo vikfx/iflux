@@ -1,17 +1,15 @@
 import http from 'http'
 import fs from 'fs/promises'
 import * as router from './src/router.js'
+import * as question from './src/pipeline/question.js'
 
 http.createServer(async (req, res) => {
 	//traitement api
 	if(router.isApi(req.url)) {
-		console.log('is api route')
 		//question
-		router.restRoute('question', (body) => {
-			console.log('question callback')
-			return {
-				result : 'is a question'
-			}
+		router.addRouteListener('question', (body) => {
+			console.log('question callback ' + body.question)
+			return question.make(body.question)
 		})
 
 		return router.serveApi(req, res)

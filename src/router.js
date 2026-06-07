@@ -75,15 +75,12 @@ export async function serveApi(req, res) {
 	
 	//verifier la route
 	const route = getPattern(req.url)
-	console.log('route : ' + route)
-	console.log('callback : ' + routes[route])
 	
 	try {
-		console.log('route found')
 		const callback = routes[route]
 		const output = await callback(body)
 		
-		console.log('api send response')
+		console.log('api send response for ' + route)
 		res.writeHead(200, { 'Content-Type': 'application/json' })
 		return res.end(JSON.stringify({
 			route : 	req.url,
@@ -119,8 +116,8 @@ export function getPattern(url) {
 	return r[1]
 }
 
-
-export function restRoute(route, callback) {
+//ajouter un ecouteur pour une route
+export function addRouteListener(route, callback) {
 	routes[route] = callback
 }
 
@@ -145,7 +142,6 @@ export function getBody(req) {
 		})
 
 		req.on('end', () => {
-			console.log('resolve ' + body)
 			try {
 				const parsed = JSON.parse(body);
 				resolve(parsed);

@@ -19,15 +19,12 @@
 
 	<link rel="stylesheet" href="./css/main.css">
 
-
 	<!-- <link rel="manifest" href="manifest.json">
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="apple-mobile-web-app-title" content="Mon Application">
 	<link rel="apple-touch-icon" href="icons/icon-192.png"> -->
-
-
 </head>
 <body>
 	<header id="main-header">
@@ -80,17 +77,23 @@
 				</div>
 			</form>
 
+			<form action="" id="try-ai-form">
+				<input type="password" name="api-key" id="google-key" value="">
+				<button type="submit" class="button"><span class="material-symbols-outlined">feedback</span></button>
+			</form>
+			
 			<div id="question-reminder">
 				<h3>Rappel de la question posée</h3>
 			</div>
 		</aside>
 		
 		<div id="page">
-			<!-- #request-tab -->
-			<section id="requests-tab" class="tab">
+			<!-- #query-tab -->
+			<section id="query-tab" class="tab">
 				<h2>Requêtes</h2>
-				<ul id="requetes"></ul>
-			</section><!-- /#requests-tab -->
+				<p class="prompt"></p>
+				<ul id="queries"></ul>
+			</section><!-- /#query-tab -->
             <section id="cards-tab" class="tab">
 				<h2>Cards</h2>
 				<ul id="cards">

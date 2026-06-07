@@ -2,23 +2,23 @@ QUESTION :
 {question}
 
 POSITIONNEMENT :
-{position}
+{context.position}
 
 AXES THEMATIQUES :
-{labels}
+{context.labels}
 
 TYPES DE SOURCES RECHERCHÉES :
-{source_types}
+{context.source_types}
 
 LANGUE :
-{language}
+{context.language}
 
 NOMBRE DE REQUÊTES :
-{query_count}
+{query.count}
 
 MISSION :
 
-Génère {query_count} requêtes de recherche courtes et variées permettant d'identifier des contenus pertinents pour répondre à la question.
+Génère {query.count} requêtes de recherche courtes et variées permettant d'identifier des contenus pertinents pour répondre à la question.
 
 Les requêtes doivent :
 
@@ -35,6 +35,4 @@ Format :
 
 {
   "queries": [],
-  "tags": [],
-  "angles": []
 }

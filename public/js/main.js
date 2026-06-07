@@ -4,7 +4,62 @@ document.addEventListener('DOMContentLoaded', (evt) => {
 	themeColors()
 	authenticate()
 	initQuestion()
+	tryGAI()
 })
+
+function tryGAI() {
+	const $form = document.querySelector('#try-ai-form')
+	if(!$form) return
+	const $key = $form.querySelector('input[name=api-key]')
+	if(!$key) return
+	if(localStorage.getItem($key.id)) $key.value = localStorage.getItem($key.id)
+	$form.addEventListener('submit', async evt => {
+		evt.preventDefault()
+		const $prompt = document.querySelector('#query-tab .prompt')
+		const prompt = ($prompt) ? $prompt.innerHTML : ''
+		if(prompt == '') return
+
+		const body = {
+			contents : [{
+				parts : [{
+					'text' : prompt
+				}]
+			}],
+			generationConfig: {
+				responseMimeType: "application/json",
+				responseJsonSchema: {
+					type: "object",
+					properties: {
+						"queries": {
+							type: "array",
+							items: { type: "string" }
+						}
+					}
+				}
+			}
+		}
+
+		console.log('send to google')
+		const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent"
+		const response = await fetch(url, {
+			method : 'POST',
+			headers : {
+				'Content-Type' : 	'application/json',
+				'x-goog-api-key':	$key.value
+			},
+			body : JSON.stringify(body)
+		})
+
+		if(!response.ok) {
+			throw new Error(`Gemini error ${response.status}`);
+		}
+
+		localStorage.setItem($key.id, $key.value)
+		const output = response.json()
+		console.log(output)
+		return output;
+	})
+}
 
 
 //choix du theme de couleur
@@ -71,8 +126,22 @@ function initQuestion() {
 	
 			const body = new FormData($form)
 	
-			fetchAPI($form.action, 'POST', body, (output) => {
-				console.log(output.output.result)
+			fetchAPI($form.action, 'POST', body, (response) => {
+				console.log(response.output.result)
+				const $prompt = document.querySelector('#query-tab .prompt')
+				if($prompt) $prompt.innerHTML = response.output.prompt.replace(/\n/g, '<br>')
+				
+				const $ul = document.querySelector('#query-tab #queries')
+				if($ul) {
+					$ul.innerHTML = ''
+					response.output.result.queries.forEach(query => {
+						const $li = document.createElement('li')
+						$li.classList.add('query')
+						$li.innerHTML = query
+						$ul.appendChild($li)
+					})
+
+				}
 			})
 		})
 	})
