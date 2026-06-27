@@ -5,7 +5,7 @@
 import {settings} from './config.js'
 
 //interroger l'api
-export async function ask(prompt) {
+export async function ask(prompt, format) {
 	//body de la requete
 	const body = {
 		contents : [{
@@ -15,20 +15,12 @@ export async function ask(prompt) {
 		}],
 		generationConfig : {
 			responseMimeType: "application/json",
-			responseJsonSchema: {
-				type: "object",
-				properties: {
-					"queries": {
-						type: "array",
-						items: { type: "string" }
-					}
-				}
-			}
+			responseJsonSchema: format
 		}
 	}
 
 	//fetch
-	const url = settings.models.google.url
+	const url = settings.models.ai.google.url
 	const response = await fetch(url, {
 		method : 'POST',
 		headers : {
@@ -38,9 +30,8 @@ export async function ask(prompt) {
 		body : JSON.stringify(body)
 	})
 
-	if(!response.ok) {
+	if(!response.ok)
 		throw new Error(`Gemini error ${response.status}`)
-	}
 
 	const result = await response.json()
 	console.log('ai response : ')
@@ -48,13 +39,11 @@ export async function ask(prompt) {
 	//parsing
 	try {
 		const text = result.candidates[0].content.parts[0].text
-		console.log('queries : ' + text)
-		const queries = JSON.parse(text)
-		return queries
+		const json = JSON.parse(text)
+		return json
 	}
 	catch(error) {
 		console.log('error on parsing response')
 		return null
 	}
-
 }

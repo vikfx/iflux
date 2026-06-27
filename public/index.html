@@ -82,18 +82,24 @@
 				<button type="submit" class="button"><span class="material-symbols-outlined">feedback</span></button>
 			</form>
 			
-			<div id="question-reminder">
-				<h3>Rappel de la question posée</h3>
-			</div>
+			<h3 id="question-reminder">Rappel de la question posée : <span></span></h3>
 		</aside>
 		
 		<div id="page">
-			<!-- #query-tab -->
-			<section id="query-tab" class="tab">
+			<!-- #queries-tab -->
+			<section id="queries-tab" class="tab">
 				<h2>Requêtes</h2>
-				<p class="prompt"></p>
-				<ul id="queries"></ul>
-			</section><!-- /#query-tab -->
+				<form action="/api/search" id="search-form">
+					<button type="submit" formaction="/api/search"><span class="material-symbols-outlined">search</span> rechercher</button>
+					<!-- <button type="submit" formaction="/api/retry"><span class="material-symbols-outlined">replay</span> regénérer</button> -->
+					<input type="hidden" name="question" value="">
+					<input type="hidden" name="refresh-count" value="0">
+					<ul id="queries"></ul>
+				</form>
+				
+			</section><!-- /#queries-tab -->
+			
+			<!-- #cards-tab -->
             <section id="cards-tab" class="tab">
 				<h2>Cards</h2>
 				<ul id="cards">

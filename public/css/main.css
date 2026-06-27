@@ -179,6 +179,16 @@ input#question {
 	font-variation-settings: 'FILL' 1;
 }
 
+/* queries-tab */ 
+.query {
+    display: flex;
+    gap: var(--space-m);
+}
+
+.query input[type=text] {
+    width: stretch;
+}
+
 /* card */
 .card {
 	padding: var(--space-l);

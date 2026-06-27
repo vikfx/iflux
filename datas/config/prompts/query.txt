@@ -11,7 +11,7 @@ TYPES DE SOURCES RECHERCHÉES :
 {context.source_types}
 
 LANGUE :
-{context.language}
+{context.language.name}
 
 NOMBRE DE REQUÊTES :
 {query.count}
@@ -22,7 +22,7 @@ Génère {query.count} requêtes de recherche courtes et variées permettant d'i
 
 Les requêtes doivent :
 
-- Les requêtes doivent utiliser des formulations différentes afin de limiter les résultats redondants.
+- utiliser des formulations différentes afin de limiter les résultats redondants.
 - privilégier les contenus de fond plutôt que l'actualité
 - orienter les requêtes vers des contenus issus de ces types de sources
 - éviter les requêtes trop génériques

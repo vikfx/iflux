@@ -8,9 +8,10 @@ import fs from 'fs/promises'
 //charger un json
 export async function loadJson(path) {
 	console.log('load json ' + path)
+
 	try {
 		const content = await fs.readFile(path, 'utf8')
-		return JSON.parse(content)
+		return (content) ? JSON.parse(content) : null
 	}
 	catch(error) {
 		console.log('can\'t read file')
@@ -22,20 +23,33 @@ export async function loadJson(path) {
 	}
 }
 
+//sauver dans un json (ecrase le contenu!)
+export async function saveJson(path, datas) {
+	console.log('save json ' + path)
+	try {
+		const content = JSON.stringify(datas, null, 4)
+		await fs.writeFile(path, content, 'utf8')
+	}
+	catch(error) {
+		console.log('can\'t write file')
+		throw error
+	}
+}
+
 //charger un txt
 export async function loadText(path) {
 	try {
-        const content = await fs.readFile(path, 'utf8')
-        return content
-    }
-    catch(error) {
-        console.log('can\'t read file')
-        if (error.code === 'ENOENT') {
-            return null
-        }
+		const content = await fs.readFile(path, 'utf8')
+		return content
+	}
+	catch(error) {
+		console.log('can\'t read file')
+		if (error.code === 'ENOENT') {
+			return null
+		}
 
-        throw error
-    }
+		throw error
+	}
 }
 
 //remplacer le contenu dans un texte par les valeurs de datas

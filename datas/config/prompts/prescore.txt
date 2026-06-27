@@ -1,0 +1,38 @@
+QUESTION :
+{question}
+
+POSITIONNEMENT :
+{context.position}
+
+AXES THEMATIQUES :
+{context.labels}
+
+TYPES DE SOURCES RECHERCHÉES :
+{context.source_types}
+
+LANGUE :
+{context.language.name}
+
+SOURCES : 
+{sources}
+
+MISSION :
+
+Pour chacune des sources, et sans lire le contenu derrière le lien, en te basant uniquement sur les metas du json fourni, donne une note de {prescore.min} à {prescore.max}
+
+Le score doit refléter:
+
+- la pertinence pour répondre à la question
+- l'alignement avec mon positionnement
+- l'alignement avec les axes thématiques
+- le respect des types de sources recherchées
+- la préférence pour les contenus de fond plutôt que l'actualité
+- la crédibilité du site emetteur de la source
+
+Retourne uniquement un JSON valide en reprenant le format de la source et en y ajoutant une entrée score.
+
+Format :
+
+{
+  "queries": [],
+}

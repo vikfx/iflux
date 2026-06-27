@@ -1,4 +1,10 @@
 {
+	"history" : {
+		"question" : "datas/questions.json",
+		"cards" : "datas/cards.json",
+		"blacklist" : "datas/blacklist.json",
+		"sources" : "datas/blacklist.json"
+	},
 	"context" : {
 		"position" : "Conception de dispositifs de médiation culturelle et ludo-éducative transformant des contenus complexes en expériences de transmission interactives en utilisant le game design et l'interactivité comme leviers de compréhension et d'engagement.",
 		"labels" : [
@@ -13,11 +19,31 @@
 			"retour d'expérience",
 			"pédagogie"
 		],
-		"language" : "français"
+		"language" : {
+			"name" : "français",
+			"code" : "fr"
+		}
+	},
+	"models" : {
+		"ai" : {
+			"google" : {
+				"url" : "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent"
+			}
+		},
+		"search_engine" : {
+			"brave" : {
+				"url" : "https://api.search.brave.com/res/v1/web/search"
+			}
+		}
 	},
 	"query" : {
-		"count" : 5,
-		"prompt" : "./datas/config/prompts/requests.txt",
-		"max_token" : 300
+		"count" : 8,
+		"prompt" : "datas/config/prompts/query.txt",
+		"max_token" : 800
+	},
+	"prescore" : {
+		"prompt" : "datas/config/prompts/prescore.txt",
+		"min" : 0,
+		"max" : 10
 	}
 }

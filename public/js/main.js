@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', (evt) => {
 	themeColors()
 	authenticate()
 	initQuestion()
+	initQueries()
 	tryGAI()
 })
 
@@ -115,36 +116,110 @@ function authenticate() {
 
 //requete api de la question
 function initQuestion() {
-	const $forms = document.querySelectorAll('#sidebar form')
+	const $form = document.querySelector('#question-form')
+	if(!$form) return
 
-	// const $form = document.querySelector('#question-form')
-	$forms.forEach($form => {
-		if(!$form) return
-	
-		$form.addEventListener('submit', evt => {
-			evt.preventDefault()
-	
-			const body = new FormData($form)
-	
-			fetchAPI($form.action, 'POST', body, (response) => {
-				console.log(response.output.result)
-				const $prompt = document.querySelector('#query-tab .prompt')
-				if($prompt) $prompt.innerHTML = response.output.prompt.replace(/\n/g, '<br>')
-				
-				const $ul = document.querySelector('#query-tab #queries')
-				if($ul) {
-					$ul.innerHTML = ''
-					response.output.result.queries.forEach(query => {
-						const $li = document.createElement('li')
-						$li.classList.add('query')
-						$li.innerHTML = query
-						$ul.appendChild($li)
-					})
+	$form.addEventListener('submit', evt => {
+		evt.preventDefault()
 
-				}
-			})
+		const body = new FormData($form)
+
+		fetchAPI($form.action, 'POST', body, (response) => {
+			console.log(response.output)
+			
+			// const $prompt = $tab.querySelector('#query-prompt')
+			// if($prompt) $prompt.innerHTML = response.output.prompt.replace(/\n/g, '<br>')
+			
+			const $reminder = document.querySelector('#question-reminder span')
+			if($reminder) $reminder.innerHTML = response.output.question
+
+			const $questionI = document.querySelector('#search-form input[name=question]')
+			if($questionI) $questionI.value = response.output.question
+
+			const $ul = document.querySelector('#queries')
+			if($ul) {
+				$ul.innerHTML = ''
+				response.output.queries.forEach((query, q) => {
+					$ul.appendChild(queryHTML(query, q))
+				})
+			}
 		})
 	})
+}
+
+//requete api des requetes
+function initQueries() {
+	const $form = document.querySelector('#search-form')
+	if(!$form) return
+
+	$form.addEventListener('submit', evt => {
+		evt.preventDefault()
+
+		const body = new FormData($form)
+
+		const action = evt.submitter.getAttribute("formaction") || $form.action
+		
+		fetchAPI(action, 'POST', body, (response) => {
+			console.log(response.output)
+			
+			const $counter = document.querySelector('#search-form input[name=refresh-count]')
+			if($counter) $counter.value = 0
+
+		})
+	})
+}
+
+//contenu html de la requete
+function queryHTML(query, i) {
+	const $li = document.createElement('li')
+	$li.classList.add('query')
+
+	const $cb = document.createElement('input')
+	$cb.type = 'checkbox'
+	$cb.name = 'queries'
+	$cb.id = 'query-' + i
+	$cb.value = query
+	$cb.checked = true
+	$cb.addEventListener('click', e => {
+		const $counter = document.querySelector('#search-form input[name=refresh-count]')
+		if(!$counter) return
+		let count = Number($counter.value)
+		$counter.value = ($cb.checked) ? count - 1 : count + 1
+		
+	})
+	
+	const $lbl = document.createElement('label')
+	$lbl.for = 'query-' + i
+	$lbl.innerHTML = query
+
+	$lbl.addEventListener('click', evt => {
+		const $i = document.createElement('input')
+		$i.type = 'text'
+		$i.value = $lbl.innerHTML
+		$i.addEventListener('change', e => {
+			e.preventDefault()
+			$cb.value = $i.value
+			$lbl.innerHTML = $i.value
+		})
+		
+		$i.addEventListener('focusout', e => {
+			e.preventDefault()
+			$li.removeChild($i)
+			$li.appendChild($lbl)
+		})
+		
+		$i.addEventListener('keypress', e => {
+			if(e.key == 'Enter') e.preventDefault()
+		})
+		
+		$li.removeChild($lbl)
+		$li.appendChild($i)
+	})
+
+	$li.append($cb)
+	$li.append($lbl)
+
+	return $li
 }
 
 //requete vers l'api 
