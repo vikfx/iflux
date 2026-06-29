@@ -1,9 +1,10 @@
 {
 	"history" : {
 		"question" : "datas/questions.json",
-		"cards" : "datas/cards.json",
 		"blacklist" : "datas/blacklist.json",
-		"sources" : "datas/blacklist.json"
+		"watch" : "datas/watch.json",
+		"sources" : "datas/sources.json",
+		"sites" : "datas/sites.json"		
 	},
 	"context" : {
 		"position" : "Conception de dispositifs de médiation culturelle et ludo-éducative transformant des contenus complexes en expériences de transmission interactives en utilisant le game design et l'interactivité comme leviers de compréhension et d'engagement.",
@@ -44,6 +45,7 @@
 	"prescore" : {
 		"prompt" : "datas/config/prompts/prescore.txt",
 		"min" : 0,
-		"max" : 10
+		"max" : 10,
+		"max_sources" : 10
 	}
 }

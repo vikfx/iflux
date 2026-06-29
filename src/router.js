@@ -96,7 +96,7 @@ export async function serveApi(req, res) {
 		return res.end(JSON.stringify({
 			route : 	req.url,
 			body : 		body,
-			error : 	'bad route request'
+			error : 	'bad route request : ' + error
 		}))
 	}
 

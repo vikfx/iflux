@@ -21,27 +21,27 @@ export async function makeQueries(question) {
 			}
 		}
 	}
-	//const response = await ai.ask(prompt, format)
-	//const queries = response.queries
+	const response = await ai.ask(prompt, format)
+	const queries = response.queries
 
 	//formater la reponses
-	//const output = { question, prompt,  queries}
-	//pushHistory(output)
+	const output = { question, prompt,  queries}
+	pushHistory(output)
 
-	const output = {
-        "question": "le quiz est-il un jeu?",
-        "prompt": "fake prompt",
-        "queries": [
-            "le quiz comme outil de médiation scientifique et culturelle",
-            "théorie de l'apprentissage par le jeu et design de quiz",
-            "impact du quiz sur l'engagement cognitif en contexte muséal",
-            "game design et mécanismes de quiz pour la transmission des savoirs",
-            "psychologie cognitive et efficacité pédagogique des questionnaires interactifs",
-            "retour d'expérience conception dispositifs ludo-éducatifs quiz",
-            "le quiz est-il un levier d'apprentissage sérieux ou simple divertissement",
-            "ingénierie pédagogique des dispositifs interactifs de questionnement"
-        ]
-    }
+	// const output = {
+    //     "question": "le quiz est-il un jeu?",
+    //     "prompt": "fake prompt",
+    //     "queries": [
+    //         "le quiz comme outil de médiation scientifique et culturelle",
+    //         "théorie de l'apprentissage par le jeu et design de quiz",
+    //         "impact du quiz sur l'engagement cognitif en contexte muséal",
+    //         "game design et mécanismes de quiz pour la transmission des savoirs",
+    //         "psychologie cognitive et efficacité pédagogique des questionnaires interactifs",
+    //         "retour d'expérience conception dispositifs ludo-éducatifs quiz",
+    //         "le quiz est-il un levier d'apprentissage sérieux ou simple divertissement",
+    //         "ingénierie pédagogique des dispositifs interactifs de questionnement"
+    //     ]
+    // }
 
 	return output
 }

@@ -229,6 +229,10 @@ input#question {
 	gap: var(--space-xs);
 }
 
+.card .link {
+	word-break: break-word;
+}
+
 .card .labels {
 	margin-bottom: var(--space-s);
 }

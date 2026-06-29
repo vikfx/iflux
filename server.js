@@ -18,7 +18,7 @@ http.createServer(async (req, res) => {
 		router.addRouteListener('search', async (body) => {
 			console.log('search callback ' + body.queries)
 			const results = await search.searchAll(body.queries)
-			return scoring.prescore(body.question,results)
+			return scoring.prescore(body.question, results)
 		})
 
 		return router.serveApi(req, res)

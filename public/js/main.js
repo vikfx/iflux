@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', (evt) => {
 	authenticate()
 	initQuestion()
 	initQueries()
+	initCards()
 	tryGAI()
 })
 
@@ -156,7 +157,7 @@ function initQueries() {
 		evt.preventDefault()
 
 		const body = new FormData($form)
-
+		
 		const action = evt.submitter.getAttribute("formaction") || $form.action
 		
 		fetchAPI(action, 'POST', body, (response) => {
@@ -164,6 +165,16 @@ function initQueries() {
 			
 			const $counter = document.querySelector('#search-form input[name=refresh-count]')
 			if($counter) $counter.value = 0
+
+			//remplir le html des cartes
+			const $ul = document.querySelector('#cards')
+			if (!$ul) return
+
+			$ul.innerHTML = ''
+			response.output.response.forEach((card, i) => {
+				const $card = cardHTML(card, i)
+				$ul.appendChild($card)
+			})
 
 		})
 	})
@@ -220,6 +231,57 @@ function queryHTML(query, i) {
 	$li.append($lbl)
 
 	return $li
+}
+
+
+//init le model des cartes
+let $cardModel
+function initCards() {
+	const $ul = document.querySelector('#cards')
+	if (!$ul) return
+	
+	$cardModel = document.querySelector('#card-model')
+	$ul.innerHTML = ''
+}
+
+//contenu html de la carte
+function cardHTML(card, i) {
+	const $clone = $cardModel.cloneNode(true)
+	$clone.id = 'card-' + i
+	
+	const $h = $clone.querySelector('.title')
+	if($h) $h.innerHTML = card.title
+
+	const $source = $clone.querySelector('.source')
+	if($source) $source.innerHTML = card.hostname
+
+	const date = new Date(card.date)
+	const $date = $clone.querySelector('.date')	
+	if($date) $date.innerHTML = date.toLocaleDateString('fr-FR')
+
+	const $media = $clone.querySelector('.type')
+	if($media) $media.innerHTML = card.subtype
+
+	const $score = $clone.querySelector('.score .number')
+	if($score) $score.innerHTML = card.score
+
+	const $labels = $clone.querySelector('.labels')
+	//todo ajouter les labels
+
+	const $digest = $clone.querySelector('.digest')
+	if($digest) $digest.innerHTML = card.description
+
+	const $angle = $clone.querySelector('.angle')
+	//todo ajouter l'angle
+
+	const $link = $clone.querySelector('.link')
+	if($link) {
+		$link.href = card.url
+		const $txt = $link.querySelector('.text')
+		if($txt) $txt.innerHTML = card.url
+	}
+
+	return $clone
 }
 
 //requete vers l'api 

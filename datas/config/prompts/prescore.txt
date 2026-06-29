@@ -18,11 +18,11 @@ SOURCES :
 
 MISSION :
 
-Pour chacune des sources, et sans lire le contenu derrière le lien, en te basant uniquement sur les metas du json fourni, donne une note de {prescore.min} à {prescore.max}
+Pour chacune des sources, en te basant uniquement sur les metas title, description, date, subtype, content_type et name du json fourni, donne une note de {prescore.min} à {prescore.max}. Ne lis pas le contenu du champ url. Ne suis pas le lien du champ url.
 
 Le score doit refléter:
 
-- la pertinence pour répondre à la question
+- la pertinence pour répondre spécifiquement à la question posée : {question}. C'est le point le plus important pour définir le score.
 - l'alignement avec mon positionnement
 - l'alignement avec les axes thématiques
 - le respect des types de sources recherchées
@@ -30,9 +30,3 @@ Le score doit refléter:
 - la crédibilité du site emetteur de la source
 
 Retourne uniquement un JSON valide en reprenant le format de la source et en y ajoutant une entrée score.
-
-Format :
-
-{
-  "queries": [],
-}
