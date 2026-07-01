@@ -52,13 +52,13 @@ Retourne uniquement un JSON valide :
 {
     "score": 0,
     "summary": "",
-    "tags": [],
-    "angle": ""
+    "angle": "",
+    "tags": []
 }
 
 Contraintes :
 
 - score : entier compris entre {curation.min} et {curation.max}
 - summary : résumé neutre permettant de décider rapidement si la source mérite une lecture. Maximum 2-3 phrases.
-- tags : maximum 2 éléments, uniquement parmi les axes thématiques fournis.
 - angle : une piste de réflexion, un angle critique ou une question courte pour accompagner un partage LinkedIn. Ne rédige pas le post complet.
+- tags : maximum 2 éléments, uniquement parmi les axes thématiques fournis.

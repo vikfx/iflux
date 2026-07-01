@@ -20,16 +20,37 @@ export async function ask(prompt, format) {
 	}
 
 	//fetch
+	let ntry = settings.ai.max_try
 	const url = settings.models.ai.google.url
-	const response = await fetch(url, {
-		method : 'POST',
-		headers : {
-			'Content-Type' : 	'application/json',
-			'x-goog-api-key':	process.env.GOOGLE_KEY 
-		},
-		body : JSON.stringify(body)
-	})
+	let response
 
+	while(ntry > 0) {
+		response = await fetch(url, {
+			method : 'POST',
+			headers : {
+				'Content-Type' : 	'application/json',
+				'x-goog-api-key':	process.env.GOOGLE_KEY 
+			},
+			body : JSON.stringify(body)
+		})
+
+		//attendre et retenter
+		if(!response.ok) {
+			console.log('gemini error ' + response.status + ', wait ' + settings.ai.wait + 's, ' + ntry + ' tries left')
+			await new Promise(resolve => setTimeout(resolve, settings.ai.wait * 1000));
+			ntry --
+		} else {
+			ntry = 0
+		}
+	}
+
+	// if(response.status != 200) {
+	// 	return {
+	// 		error : 'Gemini error',
+	// 		status : response.status
+	// 	}
+	// }
+	
 	if(!response.ok)
 		throw new Error(`Gemini error ${response.status}`)
 

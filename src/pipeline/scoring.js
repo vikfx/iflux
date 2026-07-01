@@ -9,7 +9,7 @@ import * as ai from '../ai.js'
 
 //calculer un prescore des resultats de recherche
 export async function prescore(question, results) {
-	//envoyer la dernière reponse enregistrée pour les tests sans passer par l'appel du prescore
+	// //envoyer la dernière reponse enregistrée pour les tests sans passer par l'appel du prescore
 	// const temp = await loadJson(settings.history.sources)
 	// return temp
 
@@ -43,7 +43,6 @@ export async function prescore(question, results) {
 		const prompt = await getPrompt(question, s)
 
 		const part = await ai.ask(prompt, format)
-
 		response = response.concat(part)
 	}
 
@@ -105,6 +104,5 @@ async function getPrompt(question, sources) {
 
 //envoyer les sources dans l'historique
 async function pushHistory(sources) {
-	//const file = await loadJson(settings.history.sources)
 	await saveJson(settings.history.sources, sources)
 }

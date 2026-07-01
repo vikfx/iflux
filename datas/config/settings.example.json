@@ -37,6 +37,10 @@
 			}
 		}
 	},
+	"ai" : {
+		"max_try" : 3,
+		"wait" : 30
+	},
 	"query" : {
 		"count" : 8,
 		"prompt" : "datas/config/prompts/query.txt",

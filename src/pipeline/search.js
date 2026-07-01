@@ -10,8 +10,8 @@ import {loadJson, loadText, replaceTemplate, saveJson} from '../utils.js'
 
 //lancer les requetes
 export async function searchAll(queries) {
-	//envoyer une reponse vide pour les tests sans passer par l'appel de la recherche
-	//return []
+	// //envoyer une reponse vide pour les tests sans passer par l'appel de la recherche
+	// return []
 
 	console.log(queries)
 	if(!Array.isArray(queries)) queries = [queries]

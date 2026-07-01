@@ -266,13 +266,23 @@ function cardHTML(card, i) {
 	if($score) $score.innerHTML = card.score
 
 	const $labels = $clone.querySelector('.labels')
-	//todo ajouter les labels
+	if($labels) {
+		const $li = $labels.querySelector('.label')
+		$labels.innerHTML = ''
+		if($li) {
+			card.tags.forEach(tag => {
+				const $lbl = $li.cloneNode(true)
+				$lbl.innerHTML = tag
+				$labels.appendChild($lbl)
+			})
+		}
+	}
 
 	const $digest = $clone.querySelector('.digest')
-	if($digest) $digest.innerHTML = card.description
+	if($digest) $digest.innerHTML = card.summary
 
 	const $angle = $clone.querySelector('.angle')
-	//todo ajouter l'angle
+	if($angle) $angle.innerHTML = card.angle
 
 	const $link = $clone.querySelector('.link')
 	if($link) {

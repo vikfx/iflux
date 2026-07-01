@@ -8,7 +8,7 @@ import * as ai from '../ai.js'
 
 //transformer la question en requetes
 export async function makeQueries(question) {
-	//envoyer une reponse toute prête pour les tests sans passer par l'appel de la question
+	// //envoyer une reponse toute prête pour les tests sans passer par l'appel de la question
 	// return {
 	// 	"question": "le quiz est-il un jeu?",
 	// 	"prompt": "fake prompt",
@@ -38,6 +38,7 @@ export async function makeQueries(question) {
 		}
 	}
 	const response = await ai.ask(prompt, format)
+	
 	const queries = response.queries
 
 	//formater la reponses
