@@ -171,7 +171,7 @@ function initQueries() {
 			if (!$ul) return
 
 			$ul.innerHTML = ''
-			response.output.response.forEach((card, i) => {
+			response.output.sources.forEach((card, i) => {
 				const $card = cardHTML(card, i)
 				$ul.appendChild($card)
 			})

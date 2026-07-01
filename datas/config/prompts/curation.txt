@@ -1,0 +1,64 @@
+QUESTION :
+{question}
+
+POSITIONNEMENT :
+{context.position}
+
+AXES THEMATIQUES :
+{context.labels}
+
+TYPES DE SOURCES RECHERCHÉES :
+{context.source_types}
+
+LANGUE :
+{context.language.name}
+
+SOURCE :
+{url}
+
+MISSION :
+
+Analyse cette source afin d'évaluer sa valeur pour une veille éditoriale.
+
+L'objectif est d'identifier les contenus qui méritent un temps de lecture et qui peuvent potentiellement nourrir une réflexion ou un partage.
+
+La note doit refléter en priorité :
+
+1. La capacité de la source à répondre précisément à la question :
+
+{question}
+
+2. La richesse de la réflexion apportée.
+
+3. La capacité du contenu à dépasser une simple présentation d'outil, de technologie, de méthode ou de tendance.
+
+Évalue ensuite les critères suivants :
+
+- La source traite-t-elle d'un problème de conception d'expérience, de médiation, de transmission ou d'apprentissage ?
+- Permet-elle d'identifier un mécanisme (attention, compréhension, interaction, engagement, comportement utilisateur...) ?
+- Apporte-t-elle une analyse critique, une nuance ou un retour d'expérience exploitable ?
+- Est-elle cohérente avec mon positionnement ?
+- Correspond-elle aux types de sources recherchées ?
+- Peut-elle alimenter une réflexion courte et pertinente sur LinkedIn sans transformer le partage en simple relai d'information ?
+
+Important :
+
+- Un contenu uniquement lié à mon positionnement ne doit pas automatiquement obtenir une bonne note s'il ne répond pas réellement à la question.
+- Les contenus descriptifs, promotionnels, tendances, annonces d'outils ou contenus sans analyse doivent obtenir une note faible même s'ils sont proches du domaine.
+- Les axes thématiques servent uniquement à catégoriser la source et choisir les tags. Ils ne doivent pas remplacer l'analyse de pertinence par rapport à la question.
+
+Retourne uniquement un JSON valide :
+
+{
+    "score": 0,
+    "summary": "",
+    "tags": [],
+    "angle": ""
+}
+
+Contraintes :
+
+- score : entier compris entre {curation.min} et {curation.max}
+- summary : résumé neutre permettant de décider rapidement si la source mérite une lecture. Maximum 2-3 phrases.
+- tags : maximum 2 éléments, uniquement parmi les axes thématiques fournis.
+- angle : une piste de réflexion, un angle critique ou une question courte pour accompagner un partage LinkedIn. Ne rédige pas le post complet.

@@ -47,5 +47,12 @@
 		"min" : 0,
 		"max" : 10,
 		"max_sources" : 10
+	},
+	"curation" : {
+		"prompt" : "datas/config/prompts/curation.txt",
+		"min" : 0,
+		"max" : 10,
+		"target_score" : 8,
+		"num_of_results" : 5
 	}
 }

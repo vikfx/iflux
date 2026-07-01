@@ -9,6 +9,10 @@ import * as ai from '../ai.js'
 
 //calculer un prescore des resultats de recherche
 export async function prescore(question, results) {
+	//envoyer la dernière reponse enregistrée pour les tests sans passer par l'appel du prescore
+	// const temp = await loadJson(settings.history.sources)
+	// return temp
+
 	//formater les sources (l'url est enlevée pour faciliter le prescore ia sans lecture de l'article)
 	const sources = formatSources(results)
 	console.log(sources.length + ' sources to score')
@@ -26,17 +30,7 @@ export async function prescore(question, results) {
 			type: "object",
 			properties : {
 				"id" : {type: "number"},
-				//"title" : { type : "string"},
-				// "url" : { type : "string"},
-				// "description" : { type : "string"},
-				// "date" : { type : "string"},
-				// "name" : { type : "string"},
-				// "language" : { type : "string"},
-				// "subtype" : { type : "string"},
-				// "content_type" : { type : "string"},
-				// "hostname" : { type : "string"},
-				// "extra" : { type : "array", items: {type : "string"} },
-				"score" : { type : "number"},
+				"prescore" : { type : "number"},
 			}
 		}
 	}
@@ -56,16 +50,17 @@ export async function prescore(question, results) {
 	//reattribuer l'url et le hostname
 	sources.forEach(s => {
 		const r = response.find(sr => s.id == sr.id )
-		if(r) s.score = r.score
+		if(r) s.prescore = r.prescore
 	})
 
-	//classer et sauvegarder
-	sources.sort((a, b) => { return b.score - a.score})
-	pushHistory(sources)
-
-	//formater la reponses
+	//classer
+	sources.sort((a, b) => { return b.prescore - a.prescore})
+	
+	//formater et sauvegarder la reponses
 	const prompt = await getPrompt(question, [])
-	const output = { question, prompt,  response : sources}
+	const output = { question, prompt,  sources}
+	
+	pushHistory(output)
 	return output
 }
 
@@ -85,7 +80,7 @@ function formatSources(results) {
 function formatSource(result, i) {
     return {
 		"id"			: i,
-        "title" 		: result.title ?? '',
+		"title" 		: result.title ?? '',
 		"url"			: result.url ?? '',
 		"description"	: result.description ?? '',
 		"date"			: result.page_age ?? '',
@@ -101,15 +96,15 @@ function formatSource(result, i) {
 
 //renvoyer le prompt de la requete
 async function getPrompt(question, sources) {
-    const template = await loadText(settings.prescore.prompt)
-    const datas = structuredClone(settings)
-    datas.question = question
+	const template = await loadText(settings.prescore.prompt)
+	const datas = structuredClone(settings)
+	datas.question = question
 	datas.sources = JSON.stringify(sources)
-    return replaceTemplate(template, datas)
+	return replaceTemplate(template, datas)
 }
 
 //envoyer les sources dans l'historique
 async function pushHistory(sources) {
-	const file = await loadJson(settings.history.sources)
+	//const file = await loadJson(settings.history.sources)
 	await saveJson(settings.history.sources, sources)
 }

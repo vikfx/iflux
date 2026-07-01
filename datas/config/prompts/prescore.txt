@@ -4,9 +4,6 @@ QUESTION :
 POSITIONNEMENT :
 {context.position}
 
-AXES THEMATIQUES :
-{context.labels}
-
 TYPES DE SOURCES RECHERCHÉES :
 {context.source_types}
 
@@ -18,15 +15,27 @@ SOURCES :
 
 MISSION :
 
-Pour chacune des sources, en te basant uniquement sur les metas title, description, date, subtype, content_type et name du json fourni, donne une note de {prescore.min} à {prescore.max}. Ne lis pas le contenu du champ url. Ne suis pas le lien du champ url.
+Pour chacune des sources, attribue une note de {prescore.min} à {prescore.max} en te basant uniquement sur les métadonnées fournies (title, description, date, subtype, content_type et name).
 
-Le score doit refléter:
+N'utilise pas le champ url. Ne tente pas d'accéder au contenu de la page et ne déduis pas d'informations qui ne sont pas présentes dans les métadonnées.
 
-- la pertinence pour répondre spécifiquement à la question posée : {question}. C'est le point le plus important pour définir le score.
-- l'alignement avec mon positionnement
-- l'alignement avec les axes thématiques
-- le respect des types de sources recherchées
-- la préférence pour les contenus de fond plutôt que l'actualité
-- la crédibilité du site emetteur de la source
+La note doit être attribuée selon la démarche suivante :
 
-Retourne uniquement un JSON valide en reprenant le format de la source et en y ajoutant une entrée score.
+1. Détermine d'abord si les métadonnées indiquent que la source est susceptible d'apporter une réponse ou un éclairage pertinent à la question suivante :
+   {question}
+
+2. Si les métadonnées ne permettent pas de penser que la source répond à cette question, attribue une note inférieure à la moyenne, même si le sujet est proche de mon domaine d'activité.
+
+3. Si la source semble répondre à la question, affine ensuite la note en tenant compte :
+   - de l'alignement avec mon positionnement ;
+   - de l'alignement avec les axes thématiques ;
+   - du respect des types de sources recherchées ;
+   - de la préférence pour des contenus de fond plutôt que de l'actualité ;
+   - de la crédibilité apparente de la source.
+
+Le score doit avant tout refléter la probabilité que cette source mérite une lecture complète lors de l'étape de curation.
+
+Retourne uniquement un JSON valide reprenant exactement les objets source fournis et en ajoutant uniquement la propriété :
+{
+  "score": 0
+}

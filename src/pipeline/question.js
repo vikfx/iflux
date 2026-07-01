@@ -8,6 +8,22 @@ import * as ai from '../ai.js'
 
 //transformer la question en requetes
 export async function makeQueries(question) {
+	//envoyer une reponse toute prête pour les tests sans passer par l'appel de la question
+	// return {
+	// 	"question": "le quiz est-il un jeu?",
+	// 	"prompt": "fake prompt",
+	// 	"queries": [
+	// 		"le quiz comme outil de médiation scientifique et culturelle",
+	// 		"théorie de l'apprentissage par le jeu et design de quiz",
+	// 		"impact du quiz sur l'engagement cognitif en contexte muséal",
+	// 		"game design et mécanismes de quiz pour la transmission des savoirs",
+	// 		"psychologie cognitive et efficacité pédagogique des questionnaires interactifs",
+	// 		"retour d'expérience conception dispositifs ludo-éducatifs quiz",
+	// 		"le quiz est-il un levier d'apprentissage sérieux ou simple divertissement",
+	// 		"ingénierie pédagogique des dispositifs interactifs de questionnement"
+	// 	]
+	// }
+
 	//recupérer le prompt
 	const prompt = await getPrompt(question)
 	
@@ -27,21 +43,6 @@ export async function makeQueries(question) {
 	//formater la reponses
 	const output = { question, prompt,  queries}
 	pushHistory(output)
-
-	// const output = {
-    //     "question": "le quiz est-il un jeu?",
-    //     "prompt": "fake prompt",
-    //     "queries": [
-    //         "le quiz comme outil de médiation scientifique et culturelle",
-    //         "théorie de l'apprentissage par le jeu et design de quiz",
-    //         "impact du quiz sur l'engagement cognitif en contexte muséal",
-    //         "game design et mécanismes de quiz pour la transmission des savoirs",
-    //         "psychologie cognitive et efficacité pédagogique des questionnaires interactifs",
-    //         "retour d'expérience conception dispositifs ludo-éducatifs quiz",
-    //         "le quiz est-il un levier d'apprentissage sérieux ou simple divertissement",
-    //         "ingénierie pédagogique des dispositifs interactifs de questionnement"
-    //     ]
-    // }
 
 	return output
 }
