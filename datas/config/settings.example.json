@@ -2,6 +2,7 @@
 	"history" : {
 		"question" : "datas/questions.json",
 		"blacklist" : "datas/blacklist.json",
+		"whitelist" : "datas/whitelist.json",
 		"watch" : "datas/watch.json",
 		"sources" : "datas/sources.json",
 		"sites" : "datas/sites.json"		
@@ -34,6 +35,18 @@
 		"search_engine" : {
 			"brave" : {
 				"url" : "https://api.search.brave.com/res/v1/web/search"
+			}
+		},
+		"board" : {
+			"trello" : {
+				"url" : "https://api.trello.com/1/cards",
+				"idList" : "6a0883ac5267d4fba3ad4f46",
+				"labels" : {
+					"engagement utilisateur" : "6a08a30afd3c6148d2403d3b",
+					"médiation / expérience" : "6a08a2d45af0340292ca4533",
+					"dispositif / conception" : "6a08a2f50500bae93bffbc56",
+					"cognition et apprentissage" : "6a08a326769deac807add2a9"
+				}
 			}
 		}
 	},

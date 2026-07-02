@@ -14,12 +14,12 @@ export async function prescore(question, results) {
 	// return temp
 
 	//formater les sources (l'url est enlevée pour faciliter le prescore ia sans lecture de l'article)
-	const sources = formatSources(results)
+	const sources = await formatSources(results)
 	console.log(sources.length + ' sources to score')
 	const preai = sources.map(t => {
 		const c = structuredClone(t)
-		c.url = ''
-		c.hostname = ''
+		delete c.url
+		delete c.hostname
 		return c
 	})
 
@@ -39,6 +39,7 @@ export async function prescore(question, results) {
 	const qty = settings.prescore.max_sources
 	let response = []
 	for(let i = 0; i < preai.length; i += qty) {
+		console.log('traitement des recherches ' + i + ' à ' + (i + qty))
 		const s = preai.slice(i, i + qty)
 		const prompt = await getPrompt(question, s)
 
@@ -46,7 +47,7 @@ export async function prescore(question, results) {
 		response = response.concat(part)
 	}
 
-	//reattribuer l'url et le hostname
+	//attribuer le prescore
 	sources.forEach(s => {
 		const r = response.find(sr => s.id == sr.id )
 		if(r) s.prescore = r.prescore
@@ -64,11 +65,17 @@ export async function prescore(question, results) {
 }
 
 //renvoyer les resultats de requete en format sources pour l'appel ia
-function formatSources(results) {
+async function formatSources(results) {
+	//aplatir le tableau
 	const flat = results.flatMap(r => r.results ?? [])
 	
+	//enlever les doublons et les elements blacklistés/whitelistés
+	const blacklist = new Set(await loadJson(settings.history.blacklist))
+	const whitelist = new Set(await loadJson(settings.history.whitelist))
 	const urls = new Set();	
 	return flat.map((r, i) => formatSource(r, i)).filter(r => {
+		if(blacklist.has(r.url)) return false
+		if(whitelist.has(r.url)) return false
 		if(urls.has(r.url)) return false
 		urls.add(r.url)
 		return true

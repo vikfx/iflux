@@ -9,11 +9,16 @@ import * as ai from '../ai.js'
 
 //filtrer les resultats de recherche et renvoyer les resultats ayant obtenu une note suffisante
 export async function filter(question, sources) {
+	// //envoyer la dernière reponse enregistrée pour les tests sans passer par l'appel de la curation
+	// const temp = await loadJson(settings.history.watch)
+	// return temp
+
 	console.log(sources.length + ' sources to curate')
 	const watch = []
 	let n = 0
 	while(watch.length < settings.curation.num_of_results && n < sources.length) {
 		const source = sources[n]
+
 		const prompt = await getPrompt(question, source.url)
 		console.log('try ' + (n + 1) + '/' + sources.length + ' : ' + source.url + ' (' + source.id + ')')
 
@@ -42,7 +47,9 @@ export async function filter(question, sources) {
 	console.log(n + ' sources curated')
 	if(n >= sources.length) console.log(watch.length + ' found. No more sources')
 	const prompt = await getPrompt(question, '')
-	return {question, prompt, sources : watch}
+	const output = {question, prompt, sources : watch}
+	pushHistory(output)
+	return output
 }
 
 //renvoyer le prompt de la requete
@@ -52,4 +59,9 @@ async function getPrompt(question, url) {
 	datas.question = question
 	datas.url = url
 	return replaceTemplate(template, datas)
+}
+
+//envoyer les sources dans l'historique
+async function pushHistory(sources) {
+	await saveJson(settings.history.watch, sources)
 }

@@ -43,20 +43,14 @@ export async function ask(prompt, format) {
 			ntry = 0
 		}
 	}
-
-	// if(response.status != 200) {
-	// 	return {
-	// 		error : 'Gemini error',
-	// 		status : response.status
-	// 	}
-	// }
 	
 	if(!response.ok)
-		throw new Error(`Gemini error ${response.status}`)
+		throw new Error('Gemini error ' + response.status)
 
 	const result = await response.json()
 	console.log('ai response : ')
 	console.log(result)
+	
 	//parsing
 	try {
 		const text = result.candidates[0].content.parts[0].text

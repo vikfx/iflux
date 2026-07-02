@@ -10,12 +10,14 @@
 	--color-bkg:#eee;
 	--color-hover:#33e;
 	--color-accent-1:#ccc;
+	--color-transparent:#2222;
 }
 :root.dark {
 	--color-text:#eee;
 	--color-bkg:#222;
 	--color-hover:#e33;
 	--color-accent-1:#333;
+	--color-transparent:#eee2;
 }
 
 
@@ -269,4 +271,26 @@ input#question {
 /* modal */
 .modal {
 	display: none;
+}
+
+#loader {
+    position: fixed;
+    bottom: var(--space-xl);
+    right: var(--space-xl);
+    background-color: var(--color-transparent);
+    padding: var(--space-m);
+}
+
+#loader .material-symbols-outlined {
+	animation: rotation 1s infinite;
+    transform: rotate(0deg);
+}
+
+@keyframes rotation {
+	0% {
+		transform: rotate(0deg);
+	}
+	100%{
+		transform: rotate(360deg);
+	}
 }

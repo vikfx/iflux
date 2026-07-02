@@ -291,11 +291,33 @@ function cardHTML(card, i) {
 		if($txt) $txt.innerHTML = card.url
 	}
 
+	//actions
+	$clone.dataset.id = card.id
+	const $btns = $clone.querySelectorAll('.actions a')
+	$btns.forEach($btn => {
+		$btn.addEventListener('click', evt => {
+			evt.preventDefault()
+			
+			const url = $btn.href
+			const body = new FormData()
+			body.append('card', card.id)
+			
+			fetchAPI(url, 'POST', body, (response) => {
+				console.log('success : ' + response.output.success)
+				if(response.output.success) {
+					$clone.parentNode.removeChild($clone)
+				}
+			})
+		})
+	})
+
 	return $clone
 }
 
 //requete vers l'api 
 function fetchAPI(url, method, body, callback) {
+	const $loader = document.querySelector('#loader')
+
 	const datas = {
 		method: (method) ? method : 'GET',
 		headers: { 'X-API-KEY': localStorage.getItem('apiKey')},
@@ -322,10 +344,14 @@ function fetchAPI(url, method, body, callback) {
 		datas.body = body
 		datas.headers['Content-Type'] = 'application/json'
 	}
+
+	if($loader) $loader.hidden = false
  
 	fetch(url, datas)
 	.then(res => res.json())
 	.then((output) => {
+		if($loader) $loader.hidden = true
+
 		if (typeof callback === "function") {
 			callback(output)
 		}

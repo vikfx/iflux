@@ -13,7 +13,6 @@ export async function searchAll(queries) {
 	// //envoyer une reponse vide pour les tests sans passer par l'appel de la recherche
 	// return []
 
-	console.log(queries)
 	if(!Array.isArray(queries)) queries = [queries]
 
 	const output =  await Promise.all((queries.map((q) => searchQuery(q))))
