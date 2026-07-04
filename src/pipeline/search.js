@@ -6,8 +6,6 @@
 import {settings} from '../config.js'
 import {loadJson, loadText, replaceTemplate, saveJson} from '../utils.js'
 
-
-
 //lancer les requetes
 export async function searchAll(queries) {
 	// //envoyer une reponse vide pour les tests sans passer par l'appel de la recherche
@@ -25,6 +23,7 @@ function searchQuery(query) {
 	const url = new URL(settings.models.search_engine.brave.url)
 	url.searchParams.append("q", query)
 	url.searchParams.append("search_lang", settings.context.language.code)
+	url.searchParams.append("result_filter", 'web,videos')
 
 	return fetch(url, {
 		headers: {
@@ -37,7 +36,7 @@ function searchQuery(query) {
 	.then(results => {
 		return {
 			query : query,
-			results : results.web.results
+			results : [].concat(results.web.results, results.videos.results)
 		}
 	})
 	.catch(error => {

@@ -20,7 +20,7 @@ export async function ask(prompt, format) {
 	}
 
 	//fetch
-	let ntry = settings.ai.max_try
+	let ntry = settings.ai.max_retry
 	const url = settings.models.ai.google.url
 	let response
 
@@ -37,7 +37,7 @@ export async function ask(prompt, format) {
 		//attendre et retenter
 		if(!response.ok) {
 			console.log('gemini error ' + response.status + ', wait ' + settings.ai.wait + 's, ' + ntry + ' tries left')
-			await new Promise(resolve => setTimeout(resolve, settings.ai.wait * 1000));
+			await new Promise(resolve => setTimeout(resolve, settings.ai.wait * 1000))
 			ntry --
 		} else {
 			ntry = 0

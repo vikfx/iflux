@@ -261,6 +261,7 @@ function cardHTML(card, i) {
 
 	const $media = $clone.querySelector('.type')
 	if($media) $media.innerHTML = card.subtype
+	if($media && card.duration != '') $media.innerHTML += '(' + card.duration + ')'
 
 	const $score = $clone.querySelector('.score .number')
 	if($score) $score.innerHTML = card.score
@@ -355,12 +356,5 @@ function fetchAPI(url, method, body, callback) {
 		if (typeof callback === "function") {
 			callback(output)
 		}
-		
-		// if(output['response']) {
-		// 	if (typeof callback === "function") {
-		// 		callback(output)
-		// 	}
-			
-		// }
 	});
 }

@@ -6,6 +6,7 @@
 import {settings} from '../config.js'
 import {loadJson, loadText, replaceTemplate, saveJson} from '../utils.js'
 import * as ai from '../ai.js'
+import * as transcript from '../transcript.js'
 
 //filtrer les resultats de recherche et renvoyer les resultats ayant obtenu une note suffisante
 export async function filter(question, sources) {
@@ -18,27 +19,32 @@ export async function filter(question, sources) {
 	let n = 0
 	while(watch.length < settings.curation.num_of_results && n < sources.length) {
 		const source = sources[n]
+		console.log('try ' + (n + 1) + '/' + sources.length + ' : ('  + source.type + ') ' + source.url + ' (' + source.id + ')')
 
-		const prompt = await getPrompt(question, source.url)
-		console.log('try ' + (n + 1) + '/' + sources.length + ' : ' + source.url + ' (' + source.id + ')')
+		//transcript si la source est une vidéo
+		const content = (source.type == 'video_result') ? await transcript.get(source.url) : source.url
 
-		const format = {
-			type : "object",
-			properties : {
-					"score" : { type : "number"},
-					"summary" : {type : "string"},
-					"angle" : {type : "string"},
-					"tags" : {
-						type : "array",
-						items : {type : "string"}
-					}
+		if(content) {
+			const prompt = await getPrompt(question, content)
+
+			const format = {
+				type : "object",
+				properties : {
+						"score" : { type : "number"},
+						"summary" : {type : "string"},
+						"angle" : {type : "string"},
+						"tags" : {
+							type : "array",
+							items : {type : "string"}
+						}
+				}
 			}
-		}
-		const result = await ai.ask(prompt, format)
-		console.log('get score  ' + result.score)
-		if(result.score >= settings.curation.target_score) {
-			watch.push(Object.assign(source, result))
-			console.log('keep source ' + source.id + '(total ' + watch.length + ')')
+			const result = await ai.ask(prompt, format)
+			console.log('get score  ' + result.score)
+			if(result.score >= settings.curation.target_score) {
+				watch.push(Object.assign(source, result))
+				console.log('keep source ' + source.id + '(total ' + watch.length + ')')
+			}
 		}
 
 		n++

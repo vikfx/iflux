@@ -90,11 +90,13 @@ function formatSource(result, i) {
 		"url"			: result.url ?? '',
 		"description"	: result.description ?? '',
 		"date"			: result.page_age ?? '',
-		"name"			: result.profile.name ?? '',
+		"duration"		: result.video?.duration ?? '',
+		"name"			: result.profile?.name ?? result.video?.creator ?? '',
 		"language"		: result.language ?? '',
-		"subtype"		: result.subtype ?? '',
+		"type"			: result.type ?? '',
+		"subtype"		: result.subtype ?? result.type ?? '',
 		"content_type"	: result.content_type ?? '',
-		"hostname"		: result.meta_url.hostname ?? '',
+		"hostname"		: result.meta_url?.hostname ?? '',
 		"extra"			: result.extra_snippets ?? []
 	}
 }

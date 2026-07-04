@@ -282,7 +282,7 @@ input#question {
 }
 
 #loader .material-symbols-outlined {
-	animation: rotation 1s infinite;
+	animation: rotation 1s linear infinite;
     transform: rotate(0deg);
 }
 

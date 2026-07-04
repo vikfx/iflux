@@ -35,6 +35,11 @@
 		"search_engine" : {
 			"brave" : {
 				"url" : "https://api.search.brave.com/res/v1/web/search"
+			},
+			"supadata" : {
+				"url" : "https://api.supadata.ai/v1/transcript",
+				"max_retry" : 10,
+				"wait" : 10
 			}
 		},
 		"board" : {
@@ -51,7 +56,7 @@
 		}
 	},
 	"ai" : {
-		"max_try" : 3,
+		"max_retry" : 3,
 		"wait" : 30
 	},
 	"query" : {
@@ -69,7 +74,7 @@
 		"prompt" : "datas/config/prompts/curation.txt",
 		"min" : 0,
 		"max" : 10,
-		"target_score" : 8,
-		"num_of_results" : 5
+		"target_score" : 7,
+		"num_of_results" : 9
 	}
 }
