@@ -6,63 +6,8 @@ document.addEventListener('DOMContentLoaded', (evt) => {
 	initQuestion()
 	initQueries()
 	initCards()
-	tryGAI()
+	initLists()
 })
-
-function tryGAI() {
-	const $form = document.querySelector('#try-ai-form')
-	if(!$form) return
-	const $key = $form.querySelector('input[name=api-key]')
-	if(!$key) return
-	if(localStorage.getItem($key.id)) $key.value = localStorage.getItem($key.id)
-	$form.addEventListener('submit', async evt => {
-		evt.preventDefault()
-		const $prompt = document.querySelector('#query-tab .prompt')
-		const prompt = ($prompt) ? $prompt.innerHTML : ''
-		if(prompt == '') return
-
-		const body = {
-			contents : [{
-				parts : [{
-					'text' : prompt
-				}]
-			}],
-			generationConfig: {
-				responseMimeType: "application/json",
-				responseJsonSchema: {
-					type: "object",
-					properties: {
-						"queries": {
-							type: "array",
-							items: { type: "string" }
-						}
-					}
-				}
-			}
-		}
-
-		console.log('send to google')
-		const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent"
-		const response = await fetch(url, {
-			method : 'POST',
-			headers : {
-				'Content-Type' : 	'application/json',
-				'x-goog-api-key':	$key.value
-			},
-			body : JSON.stringify(body)
-		})
-
-		if(!response.ok) {
-			throw new Error(`Gemini error ${response.status}`);
-		}
-
-		localStorage.setItem($key.id, $key.value)
-		const output = response.json()
-		console.log(output)
-		return output;
-	})
-}
-
 
 //choix du theme de couleur
 function themeColors() {
@@ -233,7 +178,6 @@ function queryHTML(query, i) {
 	return $li
 }
 
-
 //init le model des cartes
 let $cardModel
 function initCards() {
@@ -313,6 +257,128 @@ function cardHTML(card, i) {
 	})
 
 	return $clone
+}
+
+//init la tab blacklist/whitelist
+function initLists() {
+	const $tab = document.querySelector('#list-tab')
+	if(!$tab) return
+
+	const $btns = $tab.querySelectorAll('.list-type')
+	const $addForm = $tab.querySelector('#list-add-form')
+	const $deleteForm = $tab.querySelector('#list-delete-form')
+	
+	//remplir les listes
+	$btns.forEach($btn => {
+		$btn.addEventListener('click', evt => {
+			evt.preventDefault()
+
+			if($addForm) $addForm.action = $btn.href + '/add'
+			if($deleteForm) $deleteForm.action = $btn.href + '/delete'
+
+			if($deleteForm) {
+				fetchAPI($btn.href, 'GET', null, (response) => {
+					console.log(response.output)
+					
+					//remplir le html de la liste
+					const $ul = $deleteForm.querySelector('ul')
+					if (!$ul) return
+	
+					$ul.innerHTML = ''
+					response.output.sources.forEach((elem, i) => {
+						const $li = listHTML(elem, i)
+						$ul.appendChild($li)
+					})
+	
+				})
+			}
+		})
+	})
+
+	//form ajouter
+	if($addForm) {
+		$addForm.addEventListener('submit', evt => {
+			evt.preventDefault()
+
+			const body = new FormData($addForm)
+
+			fetchAPI($addForm.action, 'POST', body, (response) => {
+				console.log(response.output)
+
+				if(response.output.success) {
+					console.log('add success')
+					$addForm.querySelectorAll('input').forEach($i => {
+						$i.value = ''
+					})
+
+					//remplir le html de la liste
+					if($deleteForm) {
+						const $ul = $deleteForm.querySelector('ul')
+						if (!$ul) return
+		
+						$ul.innerHTML = ''
+						response.output.sources.forEach((elem, i) => {
+							const $li = listHTML(elem, i)
+							$ul.appendChild($li)
+						})
+					}
+				} else {
+					console.log('error during add process')
+				}
+			})
+		})
+	}
+
+	//form delete
+	if($deleteForm) {
+		$deleteForm.addEventListener('submit', evt => {
+			evt.preventDefault()
+
+			const body = new FormData($deleteForm)
+
+			fetchAPI($deleteForm.action, 'POST', body, (response) => {
+				console.log(response.output)
+
+				if(response.output.success) {
+					console.log('delete success')
+					
+					//remplir le html de la liste
+					const $ul = $deleteForm.querySelector('ul')
+					if (!$ul) return
+	
+					$ul.innerHTML = ''
+					response.output.sources.forEach((elem, i) => {
+						const $li = listHTML(elem, i)
+						$ul.appendChild($li)
+					})
+				} else {
+					console.log('error during remove process')
+				}
+			})
+		})
+	}
+}
+
+//html des elements de whitelist/blacklist
+function listHTML(elem, i) {
+	const $li = document.createElement('li')
+	const $cb = document.createElement('input')
+	$cb.type= 'checkbox'
+	$cb.name = 'url'
+	$cb.id = 'item-' + i
+	$cb.value = elem
+	const $lbl = document.createElement('label')
+	$lbl.for = 'item-' + i
+	const $a = document.createElement('a')
+	$a.target = '_blank'
+	$a.href = elem
+	$a.innerHTML = elem
+	
+	$lbl.appendChild($a)
+	$li.appendChild($cb)
+	$li.appendChild($lbl)
+
+	return $li
 }
 
 //requete vers l'api 

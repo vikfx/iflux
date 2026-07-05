@@ -71,6 +71,7 @@ export async function serveApi(req, res) {
 	if(!auth) return auth
 	
 	console.log('authentication ok')
+	console.log(req)
 	const body = await getBody(req)
 	
 	//verifier la route
@@ -143,17 +144,17 @@ export function getBody(req) {
 
 		req.on('end', () => {
 			try {
-				const parsed = JSON.parse(body);
-				resolve(parsed);
+				const parsed = (body !== '') ? JSON.parse(body) : null
+				resolve(parsed)
 			} 
 			catch (error) {
 				console.log('not json')
-				reject(error);
+				reject(error)
 			}
 		})
 
 		req.on('error', (error) => {
-			reject(error);
+			reject(error)
 		})
 	})
 }
