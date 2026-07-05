@@ -42,6 +42,7 @@
 body {
 	color: var(--color-text);
 	background-color: var(--color-bkg);
+	font-size: 14px;
 }
 
 input, select, textarea, button {
@@ -65,8 +66,22 @@ input, select, textarea, button {
 
 /***** main *****/
 #main-content {
-	min-height: 90vh;
+	height: calc(100vh - 100px);
 	padding: var(--space-l);
+	display: grid;
+}
+
+#page {
+    overflow: auto;
+	display: grid;
+    gap: var(--space-l);
+	border-top: solid 1px var(--color-transparent);
+}
+
+#sidebar, .tab:not(#cards-tab) {
+    max-width: 1024px;
+    width: 80%;
+    margin: auto;
 }
 
 #cards {
@@ -80,11 +95,41 @@ input, select, textarea, button {
 	padding: var(--space-m);
 }
 
-/***** tags *****/
+/***************************************
+	HELPERS
+***************************************/
+.align-right {
+	text-align: right;
+}
+
+
+/***************************************
+	ELEMENTS
+***************************************/
+/***** forms *****/
+#main-content form {
+	width: 100%;
+}
+
 input, select, textarea {
 	border: none;
 	background-color: var(--color-accent-1);
 	padding: var(--space-m);
+}
+
+.checklist {
+	margin-bottom: var(--space-m);
+}
+
+.checklist li {
+	display: flex;
+    gap: var(--space-m);
+	margin-bottom: var(--space-s);
+}
+
+input.fw-and-button {
+	width: calc(100% - 60px);
+	margin-bottom: var(--space-m);
 }
 
 button {
@@ -95,6 +140,11 @@ button {
 /* titles */
 h2 {
 	text-align: center;
+	text-transform: capitalize;
+    font-variant: petite-caps;
+    font-weight: 700;
+    margin: var(--space-m) 0;
+    font-size: 1.2em;
 }
 
 /* buttons */
@@ -115,17 +165,11 @@ h2 {
 	border-color: var(--color-hover);
 }
 
-/***************************************
-	HELPERS
-***************************************/
-.align-right {
-	text-align: right;
+.button.border {
+    border: solid 1px;
+    padding: var(--space-s);
 }
 
-
-/***************************************
-	ELEMENTS
-***************************************/
 /* signature */
 .at-spiral {
 	text-decoration: none;
@@ -151,7 +195,7 @@ h1 a {
 
 #main-header #color-toggle {
 	border: none;
-} 
+}
 
 
 /* sidebar */
@@ -163,16 +207,6 @@ h1 a {
 	justify-items: center;
 }
 
-#question-form {
-	max-width: 700px;
-	width: 70%;
-}
-
-input#question {
-	width: calc(100% - 60px);
-	margin-bottom: var(--space-m);
-}
-
 /* symbols */
 .material-symbols-outlined {
 	vertical-align: middle;
@@ -182,11 +216,6 @@ input#question {
 }
 
 /* queries-tab */ 
-.query {
-    display: flex;
-    gap: var(--space-m);
-}
-
 .query input[type=text] {
     width: stretch;
 }
@@ -246,6 +275,7 @@ input#question {
 	padding: var(--space-s);
 	border-radius: var(--space-s);
 	font-size: .8em;
+	margin-right: var(--space-xs)
 }
 
 .card .digest {
@@ -265,8 +295,16 @@ input#question {
 }
 
 
+/***** lists *****/
+#list-tab {
+    border-top: solid 1px var(--color-transparent);
+    padding-top: var(--space-m);
+}
 
-
+#list-tab nav a.on {
+	background-color: var(--color-text);
+	color: var(--color-bkg);
+}
 
 /* modal */
 .modal {

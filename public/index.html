@@ -44,63 +44,27 @@
 		<aside id="sidebar">
 			<h2>Question</h2>
             <form action="/api/question" id="question-form">
-				<input type="text" name="question" id="question" placeholder="votre question" value="">
+				<input type="text" name="question" id="question" class="fw-and-button" placeholder="votre question" value="">
 				<button type="submit"  class="button"><span class="material-symbols-outlined">question_mark</span></button>
-				<div id="question-options" class="toggle">
-					<button class="toggle-btn"><span class="material-symbols-outlined">add</span> options</button>
-					<div class="toggle-content">
-						<select name="model" id="model">
-							<option value="openai">openai</option>
-							<option value="mistral">mistral</option>
-							<option value="googleai">google ai</option>
-						</select>
-						<ul id="labels">
-							<li class="label">
-								<input type="checkbox" name="label" id="engagment" value="engagement utilisateur">
-								<label for="engagment">engagement utilisateur</label>
-							</li>
-							<li class="label">
-								<input type="checkbox" name="label" id="mediation" value="médiation / expérience">
-								<label for="mediation">médiation / expérience</label>
-							</li>
-							<li class="label">
-								<input type="checkbox" name="label" id="conception" value="dispositif / conception">
-								<label for="conception">dispositif / conception</label>
-							</li>
-							<li class="label">
-								<input type="checkbox" name="label" id="learning" value="cognition et apprentissage">
-								<label for="learning">cognition et apprentissage</label>
-							</li>
-						</ul>
-						<input type="number" name="target-score" id="target-score" value="8">
-					</div>
-				</div>
 			</form>
-
-			<form action="" id="try-ai-form">
-				<input type="password" name="api-key" id="google-key" value="">
-				<button type="submit" class="button"><span class="material-symbols-outlined">feedback</span></button>
-			</form>
-			
-			<h3 id="question-reminder">Rappel de la question posée : <span></span></h3>
 		</aside>
 		
 		<div id="page">
 			<!-- #queries-tab -->
-			<section id="queries-tab" class="tab">
+			<section id="queries-tab" class="tab" hidden>
 				<h2>Requêtes</h2>
 				<form action="/api/search" id="search-form">
-					<button type="submit" formaction="/api/search"><span class="material-symbols-outlined">search</span> rechercher</button>
 					<input type="hidden" name="question" value="">
 					<input type="hidden" name="refresh-count" value="0">
-					<ul id="queries"></ul>
+					<ul id="queries" class="checklist"></ul>
+					<button type="submit" formaction="/api/search"><span class="material-symbols-outlined">search</span> rechercher</button>
 				</form>
 				
 			</section><!-- /#queries-tab -->
 			
 			<!-- #cards-tab -->
-            <section id="cards-tab" class="tab">
-				<h2>Cards</h2>
+            <section id="cards-tab" class="tab" hidden>
+				<h2>Sources</h2>
 				<ul id="cards">
 					<!-- #card-01 -->
 					<li class="card" id="card-model">
@@ -140,16 +104,17 @@
 			<!-- # list-tab-->
 			<section id="list-tab" class="tab">
 				<nav>
-					<a href="api/blacklist" class="list-type">blacklist</a>
-					<a href="api/whitelist" class="list-type">whitelist</a>
+					<a href="api/blacklist" class="button border list-type">blacklist</a>
+					<a href="api/whitelist" class="button border list-type">whitelist</a>
 				</nav>
+				<h2></h2>
 				<form action="" id="list-add-form">
-					<input type="text" name="url" value="">
-					<button type="submit"><span class="material-symbols-outlined">add</span> ajouter</button>
+					<input type="text" name="url"  class="fw-and-button" value="">
+					<button type="submit"><span class="material-symbols-outlined">add</span></button>
 				</form>
 
 				<form action="" id="list-delete-form">
-					<ul>
+					<ul class="checklist">
 					</ul>
 					<button type="submit"><span class="material-symbols-outlined">delete</span> supprimer</button>
 				</form>

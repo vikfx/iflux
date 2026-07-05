@@ -73,16 +73,18 @@ function initQuestion() {
 		fetchAPI($form.action, 'POST', body, (response) => {
 			console.log(response.output)
 			
-			// const $prompt = $tab.querySelector('#query-prompt')
-			// if($prompt) $prompt.innerHTML = response.output.prompt.replace(/\n/g, '<br>')
-			
-			const $reminder = document.querySelector('#question-reminder span')
-			if($reminder) $reminder.innerHTML = response.output.question
+			const $input = $form.querySelector('input[name=question]')
+			if($input) $input.placeholder = response.output.question
 
-			const $questionI = document.querySelector('#search-form input[name=question]')
+			const $tab = document.querySelector('#queries-tab')
+			if(!$tab) return
+
+			$tab.hidden = false
+
+			const $questionI = $tab.querySelector('#search-form input[name=question]')
 			if($questionI) $questionI.value = response.output.question
 
-			const $ul = document.querySelector('#queries')
+			const $ul = $tab.querySelector('#queries')
 			if($ul) {
 				$ul.innerHTML = ''
 				response.output.queries.forEach((query, q) => {
@@ -111,8 +113,13 @@ function initQueries() {
 			const $counter = document.querySelector('#search-form input[name=refresh-count]')
 			if($counter) $counter.value = 0
 
+			const $tab = document.querySelector('#cards-tab')
+			if(!$tab) return
+
+			$tab.hidden = false
+
 			//remplir le html des cartes
-			const $ul = document.querySelector('#cards')
+			const $ul = $tab.querySelector('#cards')
 			if (!$ul) return
 
 			$ul.innerHTML = ''
@@ -185,7 +192,7 @@ function initCards() {
 	if (!$ul) return
 	
 	$cardModel = document.querySelector('#card-model')
-	$ul.innerHTML = ''
+	$ul.removeChild($cardModel)
 }
 
 //contenu html de la carte
@@ -265,6 +272,7 @@ function initLists() {
 	if(!$tab) return
 
 	const $btns = $tab.querySelectorAll('.list-type')
+	const $title = $tab.querySelector(':scope > :is(h1, h2, h3, h4, h5, h6)')
 	const $addForm = $tab.querySelector('#list-add-form')
 	const $deleteForm = $tab.querySelector('#list-delete-form')
 	
@@ -273,9 +281,21 @@ function initLists() {
 		$btn.addEventListener('click', evt => {
 			evt.preventDefault()
 
+			//titre
+			if($title) $title.innerHTML = $btn.innerHTML
+			
+
+			//classe du bouton
+			$btns.forEach($b => {
+				if($b == $btn) $b.classList.add('on')
+				else $b.classList.remove('on')
+			})
+
+			//action du form
 			if($addForm) $addForm.action = $btn.href + '/add'
 			if($deleteForm) $deleteForm.action = $btn.href + '/delete'
 
+			//fetch
 			if($deleteForm) {
 				fetchAPI($btn.href, 'GET', null, (response) => {
 					console.log(response.output)
