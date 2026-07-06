@@ -24,7 +24,13 @@ http.createServer(async (req, res) => {
 			console.log('search callback ' + body.queries)
 			const results = await search.searchAll(body.queries)
 			const prescore = await scoring.prescore(body.question, results)
-			return curation.filter(prescore.question, prescore.sources)
+			return curation.filter(prescore)
+		})
+		
+		//derniere requetes
+		router.addRouteListener('last', async (body) => {
+			console.log('last callback')
+			return curation.last()
 		})
 
 		///// CARTES
@@ -77,7 +83,7 @@ http.createServer(async (req, res) => {
 			return lists.setHistory(body.url, 'whitelist', 'delete')
 		})
 		
-		
+
 		//reponse API
 		return router.serveApi(req, res)
 	}

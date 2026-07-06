@@ -73,6 +73,7 @@ input, select, textarea, button {
 
 #page {
     overflow: auto;
+	scrollbar-width: thin;
 	display: grid;
     gap: var(--space-l);
 	border-top: solid 1px var(--color-transparent);

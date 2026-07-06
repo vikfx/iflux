@@ -17,6 +17,7 @@ export async function get(source) {
 	let url = new URL(settings.models.search_engine.supadata.url)
 	const params = new URLSearchParams(body)
 	console.log('transcript ' + url + '?' + params)
+	let result
 	
 	try {
 		let response = await fetch(url + '?' + params, {
@@ -27,17 +28,17 @@ export async function get(source) {
 			}
 		})
 
-		console.log(response)
+		console.log('transcript response : ' + response.status)
 		
 		if(!response.ok)
 			throw new Error('transcript error  '+ response.status)
 		
-		let result = await response.json()
+		result = await response.json()
 	
 		//reponse de la requete principale
 		if(result.content) {
-			console.log('supadata response : ')
-			console.log(result)
+			console.log('supadata short transcripted')
+			//console.log(result)
 			return result.content
 		}
 
@@ -68,9 +69,11 @@ export async function get(source) {
 			if(result.status == 'completed') {
 				ntry = 0
 
-				console.log('supadata response : ')
-				console.log(result)
+				console.log('supadata long transcripted : ' + response.status)
+				//console.log(result)
 				return result.content
+			} else {
+				console.log('supadata long transcription not finished : ' + result.status)
 			}
 		}
 		

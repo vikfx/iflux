@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', (evt) => {
 	initQuestion()
 	initQueries()
 	initCards()
+	initLastSearch()
 	initLists()
 })
 
@@ -83,6 +84,9 @@ function initQuestion() {
 
 			const $questionI = $tab.querySelector('#search-form input[name=question]')
 			if($questionI) $questionI.value = response.output.question
+
+			const $counter = $tab.querySelector('#search-form input[name=refresh-count]')
+			if($counter) $counter.value = 0
 
 			const $ul = $tab.querySelector('#queries')
 			if($ul) {
@@ -266,6 +270,64 @@ function cardHTML(card, i) {
 	return $clone
 }
 
+//initialiser la dernière recherche
+function initLastSearch() {
+	const $btn = document.querySelector('#last-search')
+	if(!$btn) return
+
+	$btn.addEventListener('click', evt => {
+		evt.preventDefault()
+
+		fetchAPI($btn.href, 'GET', null, (response) => {
+			console.log(response.output)
+
+			const $question = document.querySelector('#question')
+			const $queryForm = document.querySelector('#search-form')
+			const $cards = document.querySelector('#cards')
+
+			//form question
+			if($question) {
+				$question.placeholder = response.output.question
+				$question.value = response.output.question
+			}
+
+			//form queries
+			if($queryForm) {
+				const $qtab = document.querySelector('#queries-tab')
+				if($qtab) $qtab.hidden = false
+				
+				const $questionI = $queryForm.querySelector('input[name=question]')
+				if($questionI) $questionI.value = response.output.question
+
+				const $counter = $queryForm.querySelector('input[name=refresh-count]')
+				if($counter) $counter.value = 0
+				
+				const $qul = $queryForm.querySelector('#queries')
+				if($qul) {
+					$qul.innerHTML = ''
+					response.output.queries.forEach((query, q) => {
+						$qul.appendChild(queryHTML(query, q))
+					})
+				}
+
+			}
+
+			//cards
+			if($cards) {
+				const $ctab = document.querySelector('#cards-tab')
+				if($ctab) $ctab.hidden = false
+
+				//remplir le html des cartes
+				$cards.innerHTML = ''
+				response.output.sources.forEach((card, i) => {
+					const $card = cardHTML(card, i)
+					$cards.appendChild($card)
+				})
+			}
+		})
+	})
+}
+
 //init la tab blacklist/whitelist
 function initLists() {
 	const $tab = document.querySelector('#list-tab')
@@ -433,14 +495,18 @@ function fetchAPI(url, method, body, callback) {
 	}
 
 	if($loader) $loader.hidden = false
- 
+	
 	fetch(url, datas)
 	.then(res => res.json())
 	.then((output) => {
 		if($loader) $loader.hidden = true
-
+		
 		if (typeof callback === "function") {
 			callback(output)
 		}
-	});
+	})
+	.catch(error => {
+		console.log('error during process : ' + error)
+		if($loader) $loader.hidden = false
+	})
 }

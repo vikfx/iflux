@@ -71,7 +71,6 @@ export async function serveApi(req, res) {
 	if(!auth) return auth
 	
 	console.log('authentication ok')
-	console.log(req)
 	const body = await getBody(req)
 	
 	//verifier la route

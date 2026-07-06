@@ -8,12 +8,11 @@ import {loadJson, loadText, replaceTemplate, saveJson} from '../utils.js'
 
 //lancer les requetes
 export async function searchAll(queries) {
-	// //envoyer une reponse vide pour les tests sans passer par l'appel de la recherche
-	// return []
-
+	console.log('-----------start-----------')
 	if(!Array.isArray(queries)) queries = [queries]
 
 	const output =  await Promise.all((queries.map((q) => searchQuery(q))))
+	pushHistory(output)
 	
 	return output 
 }
@@ -32,15 +31,32 @@ function searchQuery(query) {
 			"X-Subscription-Token": process.env.BRAVE_KEY
 		},
 	})
-	.then(response => response.json() )
+	.then(response => {
+		if(!response.ok)
+			throw new Error('error during search response : ' + response.status)
+		
+		return response.json()
+	})
+	.catch(error => {
+		console.log(error)
+	})
 	.then(results => {
+		let sources = []
+		if(results.web && results.web.results) sources = sources.concat(results.web.results)
+		if(results.videos && results.videos.results) sources = sources.concat(results.videos.results)
+
 		return {
 			query : query,
-			results : [].concat(results.web.results, results.videos.results)
+			results : sources
 		}
 	})
 	.catch(error => {
-		console.log('error on parsing response')
+		console.log('error on parsing search response : ' + error)
 		return error
 	})
+}
+
+//envoyer les sources dans l'historique
+async function pushHistory(sources) {
+	await saveJson(settings.history.sources, sources)
 }

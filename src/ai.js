@@ -48,8 +48,8 @@ export async function ask(prompt, format) {
 		throw new Error('Gemini error ' + response.status)
 
 	const result = await response.json()
-	console.log('ai response : ')
-	console.log(result)
+	console.log('ai responds')
+	//console.log(result)
 	
 	//parsing
 	try {
